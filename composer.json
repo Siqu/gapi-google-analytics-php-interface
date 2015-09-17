@@ -1,0 +1,21 @@
+{
+    "name": "root/gapi-google-analytics-php-interface",
+    "description": "GAPI - Google Analytics PHP Interface",
+    "license": "GNU General Public License",
+    "authors": [
+        {
+            "name": "Stig Manning",
+            "email": "stig@sdm.co.nz"
+        },
+	{
+            "name": "Joel Kitching",
+            "email": "jkitching@mailbolt.com"
+	},
+	{
+            "name": "Cliff Gordon",
+            "email": "clifton.gordon@gmail.com"
+	}
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
