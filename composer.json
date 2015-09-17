@@ -1,5 +1,5 @@
 {
-    "name": "root/gapi-google-analytics-php-interface",
+    "name": "Siqu/gapi-google-analytics-php-interface",
     "description": "GAPI - Google Analytics PHP Interface",
     "license": "GNU General Public License",
     "authors": [
