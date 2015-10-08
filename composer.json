@@ -2,6 +2,9 @@
     "name": "siqu/gapi-google-analytics-php-interface",
     "description": "GAPI - Google Analytics PHP Interface",
     "license": "GNU General Public License",
+    "autoload": {
+        "files": ["gapi.class.php"]
+    },
     "authors": [
         {
             "name": "Stig Manning",
