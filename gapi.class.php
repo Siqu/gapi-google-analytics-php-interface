@@ -25,6 +25,8 @@
  * @version 2.0
  * 
  */
+ 
+namespace Siqu\gapi;
 
 class gapi {
   const account_data_url = 'https://www.googleapis.com/analytics/v3/management/accountSummaries';
