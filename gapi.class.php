@@ -50,7 +50,7 @@ class gapi {
    */
   public function __construct($client_email, $key_file, $delegate_email = null) {
     if (version_compare(PHP_VERSION, '5.3.0') < 0) {
-      throw new Exception('GAPI: PHP version ' . PHP_VERSION . ' is below minimum required 5.3.0.');
+      throw new \Exception('GAPI: PHP version ' . PHP_VERSION . ' is below minimum required 5.3.0.');
     }
     $this->auth_method = new gapiOAuth2();
     $this->auth_method->fetchToken($client_email, $key_file, $delegate_email);
@@ -100,7 +100,7 @@ class gapi {
     if (substr($response['code'], 0, 1) == '2') {
       return $this->accountObjectMapper($response['body']);
     } else {
-      throw new Exception('GAPI: Failed to request account data. Error: "' . strip_tags($response['body']) . '"');
+      throw new \Exception('GAPI: Failed to request account data. Error: "' . strip_tags($response['body']) . '"');
     }
   }
 
@@ -207,7 +207,7 @@ class gapi {
     if (substr($response['code'], 0, 1) == '2') {
       return $this->reportObjectMapper($response['body']);
     } else {
-      throw new Exception('GAPI: Failed to request report data. Error: "' . $this->cleanErrorResponse($response['body']) . '"');
+      throw new \Exception('GAPI: Failed to request report data. Error: "' . $this->cleanErrorResponse($response['body']) . '"');
     }
   }
   
@@ -338,7 +338,7 @@ class gapi {
               $dimensions[str_replace('ga:', '', $header['name'])] = strval($row[$index]);
               break;
             default:
-              throw new Exception("GAPI: Unrecognized columnType '{$header['columnType']}' for columnHeader '{$header['name']}'");
+              throw new \Exception("GAPI: Unrecognized columnType '{$header['columnType']}' for columnHeader '{$header['name']}'");
           }
         }
         $results[] = new gapiReportEntry($metrics, $dimensions);
@@ -391,7 +391,7 @@ class gapi {
    */
   public function __call($name, $parameters) {
     if (!preg_match('/^get/', $name)) {
-      throw new Exception('No such function "' . $name . '"');
+      throw new \Exception('No such function "' . $name . '"');
     }
 
     $name = preg_replace('/^get/', '', $name);
@@ -408,7 +408,7 @@ class gapi {
       return $this->report_aggregate_metrics[$aggregate_metric_key];
     }
 
-    throw new Exception('No valid root parameter or aggregate metric called "' . $name . '"');
+    throw new \Exception('No valid root parameter or aggregate metric called "' . $name . '"');
   }
   
   /**
@@ -482,7 +482,7 @@ class gapiAccountEntry {
    */
   public function __call($name, $parameters) {
     if (!preg_match('/^get/', $name)) {
-      throw new Exception('No such function "' . $name . '"');
+      throw new \Exception('No such function "' . $name . '"');
     }
 
     $name = preg_replace('/^get/', '', $name);
@@ -493,7 +493,7 @@ class gapiAccountEntry {
       return $this->properties[$property_key];
     }
 
-    throw new Exception('No valid property called "' . $name . '"');
+    throw new \Exception('No valid property called "' . $name . '"');
   }
 }
 
@@ -561,7 +561,7 @@ class gapiReportEntry {
    */
   public function __call($name, $parameters) {
     if (!preg_match('/^get/', $name)) {
-      throw new Exception('No such function "' . $name . '"');
+      throw new \Exception('No such function "' . $name . '"');
     }
 
     $name = preg_replace('/^get/', '', $name);
@@ -578,7 +578,7 @@ class gapiReportEntry {
       return $this->dimensions[$dimension_key];
     }
 
-    throw new Exception('No valid metric or dimesion called "' . $name . '"');
+    throw new \Exception('No valid metric or dimesion called "' . $name . '"');
   }
 }
 
@@ -631,7 +631,7 @@ class gapiOAuth2 {
 
     if (!file_exists($key_file)) {
       if ( !file_exists(__DIR__ . DIRECTORY_SEPARATOR . $key_file) ) {
-        throw new Exception('GAPI: Failed load key file "' . $key_file . '". File could not be found.');
+        throw new \Exception('GAPI: Failed load key file "' . $key_file . '". File could not be found.');
       } else {
         $key_file = __DIR__ . DIRECTORY_SEPARATOR . $key_file;
       }
@@ -640,13 +640,13 @@ class gapiOAuth2 {
     $key_data = file_get_contents($key_file);
     
     if (empty($key_data)) {
-      throw new Exception('GAPI: Failed load key file "' . $key_file . '". File could not be opened or is empty.');
+      throw new \Exception('GAPI: Failed load key file "' . $key_file . '". File could not be opened or is empty.');
     }
 
     openssl_pkcs12_read($key_data, $certs, 'notasecret');
 
     if (!isset($certs['pkey'])) {
-      throw new Exception('GAPI: Failed load key file "' . $key_file . '". Unable to load pkcs12 check if correct p12 format.');
+      throw new \Exception('GAPI: Failed load key file "' . $key_file . '". Unable to load pkcs12 check if correct p12 format.');
     }
 
     openssl_sign($data, $signature, openssl_pkey_get_private($certs['pkey']), "sha256");
@@ -661,7 +661,7 @@ class gapiOAuth2 {
     $auth_token = json_decode($response['body'], true);
 
     if (substr($response['code'], 0, 1) != '2' || !is_array($auth_token) || empty($auth_token['access_token'])) {
-      throw new Exception('GAPI: Failed to authenticate user. Error: "' . strip_tags($response['body']) . '"');
+      throw new \Exception('GAPI: Failed to authenticate user. Error: "' . strip_tags($response['body']) . '"');
     }
 
     $this->auth_token = $auth_token['access_token'];
@@ -764,7 +764,7 @@ class gapiRequest {
       case 'fopen':
         return $this->fopenRequest($get_variables, $post_variables, $headers);
       default:
-        throw new Exception('Invalid http interface defined. No such interface "' . self::http_interface . '"');
+        throw new \Exception('Invalid http interface defined. No such interface "' . self::http_interface . '"');
     }
   }
 
